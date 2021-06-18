@@ -1,23 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useRef } from "react";
+import Song from './components/Song';
+import Player from './components/Player';
+import './styles/app.scss';
+import data from './data';
+import Library from './components/Library';
+import Nav from './components/Nav';
 
 function App() {
+  //State
+  const [songs, setSongs] = useState(data());
+  const [currentSong, setCurrentSong] = useState(songs[0]);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [songInfo, setSongInfo] = useState({ currentTime: 0, duration: 0, animationPercentage: 0 });
+  const [libraryStatus, setLibraryStatus] = useState(false);
+
+  // useEffect
+  // const closeLibrary = () => {
+  //   if (libraryStatus) {
+  //     setLibraryStatus(!libraryStatus)
+  //   }
+  // }
+  // useEffect(() => {
+  //   document.body.addEventListener('click', closeLibrary);
+
+  // }, [libraryStatus]);
+  //Handlers
+  const audioRef = useRef(null);
+  const timeUpdateHandler = (e) => {
+    const current = e.target.currentTime;
+    const duration = e.target.duration;
+    const animation = Math.round(100 * current / duration);
+    setSongInfo({ ...songInfo, currentTime: current, duration, animationPercentage: animation });
+  }
+
+  const songEndHandler = async () => {
+    let nextSongIndex = songs.findIndex((song) => song.id === currentSong.id) + 1;
+    await setCurrentSong(songs[nextSongIndex % songs.length]);
+    if (isPlaying) audioRef.current.play();
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={`App ${libraryStatus ? 'library-active' : ''}`}>
+      <Nav libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} />
+      <Song currentSong={currentSong} />
+      <Player songs={songs} setCurrentSong={setCurrentSong} audioRef={audioRef} setIsPlaying={setIsPlaying} isPlaying={isPlaying} currentSong={currentSong} songInfo={songInfo} setSongInfo={setSongInfo} setSongs={setSongs} />
+      <Library libraryStatus={libraryStatus} setSongs={setSongs} audioRef={audioRef} songs={songs} setCurrentSong={setCurrentSong} isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
+      <audio onEnded={songEndHandler} onLoadedMetadata={timeUpdateHandler} onTimeUpdate={timeUpdateHandler} ref={audioRef} src={currentSong.audio}></audio>
+
     </div>
   );
 }

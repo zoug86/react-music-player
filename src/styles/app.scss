@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1, h2, h3{
+    color: rgb(54, 54, 54);
+}
+
+body{
+    font-family: "Lato", sans-serif;
+    // background-color: #8EC5FC;
+    // background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);    
+    background-color: #FFDEE9;
+    background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 100%);
+}
+
+h3, h4{
+    font-weight: 400;
+    color:rgb(100, 100, 100);
+}
+
+.App{
+    height: 100vh;
+    transition: all 0.5s ease;
+}
+
+.library-active{
+    margin-left: 30%;
+}
+
+@import './song';
+@import './player';
+@import './library'; 
+@import './nav';
