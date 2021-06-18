@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlay, faAngleLeft, faAngleRight, faPause } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faAngleLeft, faAngleRight, faPause, faVolumeUp, faVolumeDown } from '@fortawesome/free-solid-svg-icons';
 //import { playAudio } from '../utils';
 
 const Player = ({ songs, currentSong, isPlaying, setIsPlaying, audioRef, songInfo, setSongInfo, setCurrentSong, setSongs }) => {
@@ -32,8 +32,15 @@ const Player = ({ songs, currentSong, isPlaying, setIsPlaying, audioRef, songInf
 
     const dragHandler = (e) => {
         audioRef.current.currentTime = e.target.value;
+        //console.log(audio.volume);
         setSongInfo({ ...songInfo, currentTime: e.target.value });
     };
+
+    const dragVolumeHandler = (e) => {
+        audioRef.current.volume = e.target.value;
+        //console.log(e.target.value)
+        setSongInfo({ ...songInfo, volumeLevel: e.target.value });
+    }
 
     const skipTrackHandler = async (step) => {
         let nextSongIndex = songs.findIndex((song) => song.id === currentSong.id) + step;
@@ -63,9 +70,18 @@ const Player = ({ songs, currentSong, isPlaying, setIsPlaying, audioRef, songInf
                 <p>{songInfo.duration ? timeFormat(songInfo.duration) : "0:00"}</p>
             </div>
             <div className="play-control">
-                <FontAwesomeIcon className="skip-back" size="2x" icon={faAngleLeft} onClick={() => skipTrackHandler(-1)} />
-                <FontAwesomeIcon onClick={playSongHandler} className="play" size="2x" icon={isPlaying ? faPause : faPlay} />
-                <FontAwesomeIcon className="skip-forward" size="2x" icon={faAngleRight} onClick={() => skipTrackHandler(1)} />
+                <div className="controls">
+                    <FontAwesomeIcon className="skip-back" size="2x" icon={faAngleLeft} onClick={() => skipTrackHandler(-1)} />
+                    <FontAwesomeIcon onClick={playSongHandler} className="play" size="2x" icon={isPlaying ? faPause : faPlay} />
+                    <FontAwesomeIcon className="skip-forward" size="2x" icon={faAngleRight} onClick={() => skipTrackHandler(1)} />
+                </div>
+
+                <div className="volume">
+                    <FontAwesomeIcon className="volume-down" size="2x" icon={faVolumeDown} />
+                    <input defaultValue={0.5} type="range" min={0} max={1} step={0.01} onChange={dragVolumeHandler} />
+                    <FontAwesomeIcon className="volume-up" size="2x" icon={faVolumeUp} />
+                </div>
+
             </div>
         </div>
     )
