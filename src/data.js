@@ -82,16 +82,6 @@ function chillhop() {
             id: uuid(),
             active: false
 
-        },
-        {
-            name: "MACHAFOUHACH",
-            cover: "https://www.aghanyna.net/english/wp-content/uploads/2021/06/hqdefault-56.jpg",
-            artist: "MOUH MILANO",
-            audio: "https://music.egonair.com/2021/June/MOUH.MILANO.Machafouhach.mp3",
-            color: ["#25313F", "#262533"],
-            id: uuid(),
-            active: false
-
         }
 
     ];
