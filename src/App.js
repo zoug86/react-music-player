@@ -7,23 +7,14 @@ import Library from './components/Library';
 import Nav from './components/Nav';
 
 function App() {
+
   //State
   const [songs, setSongs] = useState(data());
   const [currentSong, setCurrentSong] = useState(songs[0]);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [songInfo, setSongInfo] = useState({ currentTime: 0, duration: 0, animationPercentage: 0, volumeLevel: 0 });
+  const [songInfo, setSongInfo] = useState({ currentTime: 0, duration: 0, animationPercentage: 0, oldVolumeLevel: 0, volumeLevel: 0.4, isMute: false });
   const [libraryStatus, setLibraryStatus] = useState(false);
 
-  // useEffect
-  // const closeLibrary = () => {
-  //   if (libraryStatus) {
-  //     setLibraryStatus(!libraryStatus)
-  //   }
-  // }
-  // useEffect(() => {
-  //   document.body.addEventListener('click', closeLibrary);
-
-  // }, [libraryStatus]);
   //Handlers
   const audioRef = useRef(null);
   const timeUpdateHandler = (e) => {

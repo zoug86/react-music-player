@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlay, faAngleLeft, faAngleRight, faPause, faVolumeUp, faVolumeDown } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faPause, faVolumeUp, faVolumeDown, faVolumeOff, faStepForward, faStepBackward, faRandom } from '@fortawesome/free-solid-svg-icons';
 //import { playAudio } from '../utils';
 
 const Player = ({ songs, currentSong, isPlaying, setIsPlaying, audioRef, songInfo, setSongInfo, setCurrentSong, setSongs }) => {
@@ -51,6 +51,43 @@ const Player = ({ songs, currentSong, isPlaying, setIsPlaying, audioRef, songInf
 
     };
 
+    const shuffleHandler = async () => {
+        //shuffle songs elements
+        const randomSongs = songs;
+        randomSongs.sort(() => {
+            return 0.5 - Math.random();
+        })
+        currentSong.active = false;
+        await setCurrentSong(randomSongs[0]);
+        randomSongs.map((song, i) => {
+            if (i === 0) {
+                song.active = true;
+            }
+            else {
+                song.active = false;
+            }
+            return song;
+        });
+
+        if (isPlaying) audioRef.current.play();
+        setSongs(randomSongs);
+    }
+    const volumeRef = createRef();
+    const muteHandle = () => {
+        if (!songInfo.isMute) {
+            let level = songInfo.volumeLevel;
+            //console.log(level);
+            volumeRef.current.value = 0;
+            audioRef.current.volume = 0;
+            setSongInfo({ ...songInfo, oldVolumeLevel: level, volumeLevel: 0, isMute: true });
+        } else {
+            //console.log(songInfo.oldVolumeLevel);
+            volumeRef.current.value = songInfo.oldVolumeLevel;
+            audioRef.current.volume = songInfo.oldVolumeLevel;
+            setSongInfo({ ...songInfo, oldVolumeLevel: 0, volumeLevel: volumeRef.current.value, isMute: false });
+        }
+    }
+
     // Add Styles:
     const trackAnim = {
         transform: `translateX(${songInfo.animationPercentage}%)`
@@ -71,15 +108,16 @@ const Player = ({ songs, currentSong, isPlaying, setIsPlaying, audioRef, songInf
             </div>
             <div className="play-control">
                 <div className="controls">
-                    <FontAwesomeIcon className="skip-back" size="2x" icon={faAngleLeft} onClick={() => skipTrackHandler(-1)} />
+                    <FontAwesomeIcon className="skip-back" size="2x" icon={faStepBackward} onClick={() => skipTrackHandler(-1)} />
                     <FontAwesomeIcon onClick={playSongHandler} className="play" size="2x" icon={isPlaying ? faPause : faPlay} />
-                    <FontAwesomeIcon className="skip-forward" size="2x" icon={faAngleRight} onClick={() => skipTrackHandler(1)} />
+                    <FontAwesomeIcon className="skip-forward" size="2x" icon={faStepForward} onClick={() => skipTrackHandler(1)} />
                 </div>
-
+                <FontAwesomeIcon className="shuffle" icon={faRandom} onClick={shuffleHandler} />
                 <div className="volume">
-                    <FontAwesomeIcon className="volume-down" size="2x" icon={faVolumeDown} />
-                    <input defaultValue={0.5} type="range" min={0} max={1} step={0.01} onChange={dragVolumeHandler} />
-                    <FontAwesomeIcon className="volume-up" size="2x" icon={faVolumeUp} />
+                    <FontAwesomeIcon className="volume-down" size="2x"
+                        icon={songInfo.volumeLevel <= 0.01 ? faVolumeOff : songInfo.volumeLevel <= 0.7 ? faVolumeDown : faVolumeUp}
+                        onClick={() => muteHandle(songInfo.volumeLevel)} />
+                    <input ref={volumeRef} defaultValue={0.4} type="range" min={0} max={1} step={0.01} onChange={dragVolumeHandler} />
                 </div>
 
             </div>

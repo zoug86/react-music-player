@@ -81,18 +81,27 @@ input[type="range"]::-moz-range-thumb{
     justify-content: space-around;
     align-items: center;
     input{
-        margin: 0 0.5rem;
+        padding: -1rem;
         width: 100%;
         -webkit-appearance: none;
         background: transparent;
         cursor: pointer;
+        border-radius: 2rem;
+        //overflow: hidden;
     }
+    .volume-down{
+       padding: 0;
+    }
+}
+
+.shuffle{
+    font-size: 1.5rem;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     .volume input[type='range'] {
       overflow: hidden;
-      width: 100px;
+       width: 100px;
       -webkit-appearance: none;
       background-color: #9a905d;
     }
@@ -101,11 +110,11 @@ input[type="range"]::-moz-range-thumb{
       height: 10px;
       -webkit-appearance: none;
       color: #2e3131;
-      margin-top: -1px;
+    //   margin-top: -1px;
     }
     
     .volume input[type='range']::-webkit-slider-thumb {
-      width: 10px;
+       width: 0;
       -webkit-appearance: none;
       height: 10px;
     //   cursor: ew-resize;
