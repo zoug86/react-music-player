@@ -93,5 +93,13 @@
     .library{
         width: 100%;
     }
+    .library-reset{
+        height: 5rem;
+        justify-content: start;
+        padding-left: 5rem;
+        h2{
+            display: none;
+        }
+    }
  }
      

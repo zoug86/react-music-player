@@ -25,7 +25,7 @@
 .play-control{
     width: 40%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     padding: 1rem;
     svg{
@@ -34,10 +34,14 @@
 }
 
 .controls{
-    width: 50%;
+    width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    .shuffle{
+        text-align: center;
+        font-size: 2rem;
+    }
 }
 input[type="range"]:focus{
     outline: none;
@@ -76,27 +80,29 @@ input[type="range"]::-moz-range-thumb{
 }
 
 .volume{
-    width: 30%;
+    width: 50%;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
+    padding: 1rem;
     input{
-        padding: -1rem;
-        width: 100%;
         -webkit-appearance: none;
         background: transparent;
         cursor: pointer;
         border-radius: 2rem;
-        //overflow: hidden;
     }
     .volume-down{
-       padding: 0;
+        width: 100%;
+        text-align: center;
+        margin-right:1rem;
+        margin-left:1rem;
+    }
+    .volume-level{
+        width: 100%;
     }
 }
 
-.shuffle{
-    font-size: 1.5rem;
-}
+
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     .volume input[type='range'] {
@@ -123,6 +129,52 @@ input[type="range"]::-moz-range-thumb{
     }
 
 }
+@media screen and (max-width: 1400px){
+    .play-control{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+    }
+    .volume{
+        width: 70%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+        .volume-down{
+            width: 50%;
+            text-align: center;
+            margin-right:0rem;
+            margin-left: 0;
+    }
+    input[type=range]{
+            width: 75%;
+    }
+    }
+}
+
+@media screen and (max-width: 900px){
+    .volume{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+        .volume-down{
+                width: 50%;
+                text-align: center;
+                margin-right:0rem;
+                margin-left: 0;
+        }
+        input[type=range]{
+                width: 75%;
+        }
+    }    
+    
+}
+
 @media screen and (max-width: 768px){
     .time-control{
         width: 90%;
@@ -130,17 +182,51 @@ input[type="range"]::-moz-range-thumb{
     .play-control{
         width: 60%;
     }
+    .volume{
+
+        .volume-down{
+            width: 50%;
+            text-align: center;
+            margin-right:0rem;
+            margin-left: 0;
+        }
+        input[type=range]{
+            width: 75%;
+            padding: 0;
+        }
+    }
 }
 
-@media screen and (max-width: 650px){
-   .volume{
-       .volume-up{
-           display: none;
-       }
-       input{
-           margin-right: 0;
-           overflow-x: visible;
-       }
-   }
+@media screen and (max-width: 500px){
+    .volume{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+        svg{
+            font-size: 1.3rem;
+        }
 
+        .volume-down{
+            width: 50%;
+            text-align: center;
+            margin-right:0.3rem;
+            margin-left: 0;
+        }
+        input[type=range]{
+            width: 90%;
+        }
+    }
+    .play-control{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+        svg{
+            font-size: 1.3rem;
+        }
+       
+    }
 }

@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React, { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faPause, faVolumeUp, faVolumeDown, faVolumeOff, faStepForward, faStepBackward, faRandom } from '@fortawesome/free-solid-svg-icons';
 //import { playAudio } from '../utils';
@@ -72,7 +72,7 @@ const Player = ({ songs, currentSong, isPlaying, setIsPlaying, audioRef, songInf
         if (isPlaying) audioRef.current.play();
         setSongs(randomSongs);
     }
-    const volumeRef = createRef();
+    const volumeRef = useRef();
     const muteHandle = () => {
         if (!songInfo.isMute) {
             let level = songInfo.volumeLevel;
@@ -111,13 +111,20 @@ const Player = ({ songs, currentSong, isPlaying, setIsPlaying, audioRef, songInf
                     <FontAwesomeIcon className="skip-back" size="2x" icon={faStepBackward} onClick={() => skipTrackHandler(-1)} />
                     <FontAwesomeIcon onClick={playSongHandler} className="play" size="2x" icon={isPlaying ? faPause : faPlay} />
                     <FontAwesomeIcon className="skip-forward" size="2x" icon={faStepForward} onClick={() => skipTrackHandler(1)} />
+                    <div className='shuffle'>
+                        <FontAwesomeIcon icon={faRandom} onClick={shuffleHandler} />
+                    </div>
                 </div>
-                <FontAwesomeIcon className="shuffle" icon={faRandom} onClick={shuffleHandler} />
                 <div className="volume">
-                    <FontAwesomeIcon className="volume-down" size="2x"
-                        icon={songInfo.volumeLevel <= 0.01 ? faVolumeOff : songInfo.volumeLevel <= 0.7 ? faVolumeDown : faVolumeUp}
-                        onClick={() => muteHandle(songInfo.volumeLevel)} />
-                    <input ref={volumeRef} defaultValue={0.4} type="range" min={0} max={1} step={0.01} onChange={dragVolumeHandler} />
+
+                    <div className="volume-down">
+                        <FontAwesomeIcon size="2x"
+                            icon={songInfo.volumeLevel <= 0.01 ? faVolumeOff : songInfo.volumeLevel <= 0.7 ? faVolumeDown : faVolumeUp}
+                            onClick={() => muteHandle(songInfo.volumeLevel)} />
+                    </div>
+                    <div className='volume-level'>
+                        <input ref={volumeRef} defaultValue={0.4} type="range" min={0} max={1} step={0.01} onChange={dragVolumeHandler} />
+                    </div>
                 </div>
 
             </div>

@@ -12,10 +12,11 @@ const Library = ({ songs, setSongs, setCurrentSong, isPlaying, setIsPlaying, aud
     return (
         <div className={`library ${libraryStatus ? 'active-library' : ''}`}>
             <div className="library-reset">
-                <h2>Library</h2>
                 <button onClick={ResetLibraryHandler}>
                     <FontAwesomeIcon icon={faRedo} />
                 </button>
+                <h2>Library</h2>
+
             </div>
 
             <div className="library-songs">
